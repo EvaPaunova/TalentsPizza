@@ -1,6 +1,8 @@
 package controller.manager;
 
 import java.sql.SQLException;
+
+import exception.InvalidArgumentsException;
 import model.User;
 import model.dao.IUserDao;
 import model.dao.UserDao;
@@ -22,21 +24,25 @@ public class UserManager {
 	}
 	
 	public boolean register(User user) throws SQLException {
-		
+		userDao.addNewUser(user);
+		//todo
 		return false;
 	}
 	
-	public User logIn(String username, String password) throws SQLException {
-		
-		return null;
+	public User logIn(String username, String password) throws SQLException, InvalidArgumentsException {
+		User user = null;
+		if(userDao.checkUserData(username, password)) {
+			user = userDao.getUserByUsername(username);
+		}
+		return user;
 	}
 	
 	public void updateUser(User user) throws SQLException {
-		
+		userDao.updateUser(user);
 	}
 
 	public void deleteUser(User user) throws SQLException {
-		
+		userDao.deleteUser(user);
 	}
 
 }

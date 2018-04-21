@@ -2,7 +2,6 @@ package controller.manager;
 
 import java.sql.SQLException;
 import java.util.List;
-import model.Ingredient;
 import model.Product;
 import model.dao.ProductDao;
 
@@ -22,20 +21,21 @@ public class ProductManager {
 		return instance;
 	}
 
-	public void addNewProduct() throws SQLException {
-		
+	public void addNewProduct(Product product) throws SQLException {
+		productDao.addNewProduct(product);
 	}
 	
 	public void deleteProduct(Product product) throws SQLException{
-		
+		productDao.deleteProduct(product);
 	}
 	
 	public void updateProduct(Product product) throws SQLException{
-		
+		productDao.updateProduct(product);
 	}
 	
 	public List<Product> getListOfAllProduct() throws SQLException{
-		return null;
+		List<Product> products = productDao.getAllProducts();
+		return products;
 		
 	}
 	

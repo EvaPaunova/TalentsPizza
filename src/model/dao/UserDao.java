@@ -56,7 +56,7 @@ public class UserDao implements IUserDao{
 	@Override
 	public User getUserById(int id) throws SQLException, InvalidArgumentsException{
 		User user = null;
-		String sqlSelectUser = "SELECT user_id,first_name,last_name,address,email,phone_number,username,password FROM users WHERE user_id = ? ;";
+		String sqlSelectUser = "SELECT user_id,first_name,last_name,email,phone_number,username,password FROM users WHERE user_id = ? ;";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectUser)){
 			ps.setInt(1, id);
 			ResultSet result = ps.executeQuery();
@@ -79,7 +79,7 @@ public class UserDao implements IUserDao{
 	@Override
 	public User getUserByUsername(String username) throws SQLException, InvalidArgumentsException{
 		User user = null;
-		String sqlSelectUser = "SELECT user_id,first_name,last_name,address,email,phone_number,username,password \nFROM users \nWHERE username = ? ;";
+		String sqlSelectUser = "SELECT user_id,first_name,last_name,email,phone_number,username,password \nFROM users \nWHERE username = ? ;";
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectUser)){
 			ps.setString(1, username);
 			ResultSet result = ps.executeQuery();
@@ -182,22 +182,5 @@ public class UserDao implements IUserDao{
 		
 		return false;
 	}
-
-	public boolean userExists(String username, String password) throws SQLException{
-		String sql = "SELECT * FROM users WHERE username = ? AND password = ?;";
-		try(PreparedStatement ps = connection.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS)){
-			ps.setString(1, username);
-			ps.setString(2, password);
-			ps.executeQuery();
-			try(ResultSet rs = ps.getGeneratedKeys()){
-				if(rs.next()) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	}
-	
 
 }

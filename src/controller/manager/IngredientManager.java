@@ -1,6 +1,7 @@
 package controller.manager;
 
 import java.util.List;
+import exception.InvalidArgumentsException;
 import java.sql.SQLException;
 import model.Ingredient;
 import model.dao.IIngredientDao;
@@ -22,21 +23,22 @@ public class IngredientManager {
 		return instance;
 	}
 
-	public void createNewIngredient() throws SQLException{
-		
+	public void addNewIngredient(Ingredient ingredient) throws SQLException{
+		ingredientDao.addNewIngredient(ingredient);
 	}
 	
 	public void deleteIngredient(Ingredient ingredient) throws SQLException{
-		
+		ingredientDao.deleteIngredient(ingredient);
 	}
 	
 	public void updateIngredient(Ingredient ingredient) throws SQLException{
-		
+		ingredientDao.updateIngredient(ingredient);
 	}
 	
-	public List<Ingredient> getListOfAllIngredients() throws SQLException{
-		return null;
+	public List<Ingredient> getListOfAllIngredients() throws SQLException, InvalidArgumentsException{
+		List<Ingredient> ingredients = ingredientDao.getAllIngredients();
 		
+		return ingredients;		
 	}
 	
 
