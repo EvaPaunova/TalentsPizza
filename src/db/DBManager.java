@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBManager {
-	
+
+
 	private static final String DB_PASS = "mysqlpassword";
 	private static final String DB_USER = "root";
 	private static final String DB_PORT = "3306";
@@ -40,5 +41,5 @@ public class DBManager {
 	
 	public Connection getConnection() {
 		return connection;
-	}
+}
 }
