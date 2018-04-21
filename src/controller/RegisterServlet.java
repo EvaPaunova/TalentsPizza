@@ -31,7 +31,6 @@ public class RegisterServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String confirmpassword = request.getParameter("confirm password");
-		String address = request.getParameter("address");
 		String phoneNumber = request.getParameter("phone number");
 
 		User user = null;
@@ -41,7 +40,7 @@ public class RegisterServlet extends HttpServlet {
 				user = new User(username, firstName, lastName, phoneNumber, password, email);
 			} catch (InvalidArgumentsException e) {
 				request.setAttribute("exception", e);
-				request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 				System.out.println(e.getMessage());
 			}
 		}
@@ -57,7 +56,7 @@ public class RegisterServlet extends HttpServlet {
 				
 			} catch (SQLException e) {
 				request.setAttribute("exception", e);
-				request.getRequestDispatcher("errorpage.jsp").forward(request, response);
+				request.getRequestDispatcher("error.jsp").forward(request, response);
 			}
 		} 
 	}

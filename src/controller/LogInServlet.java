@@ -29,6 +29,8 @@ public class LogInServlet extends HttpServlet {
 			user = UserManager.getInstance().logIn(username, password);
 		} catch (SQLException e) {
 			e.getMessage();
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 			
 		}
 		
@@ -38,8 +40,7 @@ public class LogInServlet extends HttpServlet {
 			session.setAttribute("user", user);
 			response.sendRedirect("logged.html");
 		} else {
-			//else redirect to error page
-			response.sendRedirect("errorpage.html");
+			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} 
 	}
 }
