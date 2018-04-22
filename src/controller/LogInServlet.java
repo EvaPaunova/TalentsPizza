@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import controller.manager.UserManager;
+import exception.InvalidArgumentsException;
 import model.User;
 
 @WebServlet("/login")
@@ -27,7 +28,7 @@ public class LogInServlet extends HttpServlet {
 		//check in db if user exists
 		try {
 			user = UserManager.getInstance().logIn(username, password);
-		} catch (SQLException e) {
+		} catch (SQLException | InvalidArgumentsException e) {
 			e.getMessage();
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("error.jsp").forward(request, response);

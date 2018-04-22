@@ -1,7 +1,9 @@
  package model;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import exception.InvalidArgumentsException;
 
@@ -147,6 +149,9 @@ public class User {
 				it.remove();
 			}
 		}
-}
+	}
 
+	public Map<Product, Integer> getCart() {
+		return Collections.unmodifiableMap(cart);
+	}
 }

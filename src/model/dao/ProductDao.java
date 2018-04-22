@@ -27,14 +27,14 @@ public class ProductDao {
 	}
 	
 	public List<Product> getAllProducts() throws SQLException {
-		String sqlSelectAllProducts = "SELECT ... FROM products;";
+		String sqlSelectAllProducts = "SELECT name,price,size_id FROM products;";
 		List<Product> products = new ArrayList<>();
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllProducts,Statement.RETURN_GENERATED_KEYS)){
 			ResultSet set = ps.executeQuery();
 			while (set.next()) {
-				long product_id = set.getLong("product_id");
 				String name = set.getString("name");
 				Double price = set.getDouble("price");
+				int id = set.getInt("size_id");
 			//	Product product = new Product(name, price, sizes, categoryId, ingredients);
 			//	product.setId(product_id);
 			//	products.add(product);
