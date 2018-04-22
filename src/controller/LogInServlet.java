@@ -39,7 +39,7 @@ public class LogInServlet extends HttpServlet {
 		if (user != null) {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", user);
-			response.sendRedirect("logged.html");
+			request.getRequestDispatcher("logged.html").forward(request, response);
 		} else {
 			request.getRequestDispatcher("error.jsp").forward(request, response);
 		} 
