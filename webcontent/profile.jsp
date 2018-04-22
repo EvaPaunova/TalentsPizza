@@ -23,21 +23,32 @@
 <div style = " margin: auto; text-align:center;">
 	<form action = "profile" method = "get">
 	<img src="user-icon.png" width = "80" style = "margin-top:5px;opacity:1;possition:center;display: block;margin-top:150px;margin-left: auto; margin-right: auto;"><h3 style= "border: none;color: black;padding: 10px 150px;display: inline-block;font-size: 18px;  border-radius: 10px;">Profile</h3>
-	<%  User user  = (User) request.getAttribute("user"); %>
-	<% String fn  = user.getFirstName(); %>
-	<% String ln  = user.getLastName(); %>
-	<% String un  = user.getUsername(); %>
-	<table>
+	<%  User user  = (User) session.getAttribute("user"); %>
+	<table style = "margin: auto;">
 	<tr>
-					<td>First name:<%= fn %></td>
+					<td>First name:<input type="text" placeholder="<%= user.getFirstName()%>"></td>
 	</tr>
 	<tr>
-					<td><%= ln %></td>
+					<td>Lastname:<input type="text" placeholder="<%= user.getLastName()%>"></td>
 	</tr>
 	<tr>
-					<td><%= un %></td>
+					<td>Username:<input type="text" placeholder="<%= user.getUsername()%>"></td>
 	</tr>
-					
+	<tr>
+					<td>Password:<input type="password" placeholder="**********"></td>
+	</tr>
+	<tr>
+					<td>Confirm password:<input type="password" placeholder="**********"></td>
+	</tr>
+	<tr>
+					<td>Email:<input type="email" placeholder="<%= user.getEmail()%>"></td>
+	</tr>
+	<tr>
+					<td>Phone:<input type="text" placeholder="<%= user.getPhoneNumber()%>"></td>
+	</tr>		
+	<tr>
+					<td><input type="submit" value = "Save changes"></td>
+	</tr>		
 	</table>
 	</form>
 </div>

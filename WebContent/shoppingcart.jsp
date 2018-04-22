@@ -17,7 +17,7 @@
 			<th>Quantity</th>
 			<th></th>
 		</tr>
-		<c:forEach var="item" items="${request.getSession().getAttribute("cart")}">
+		<c:forEach var="item" items="${session.getAttribute("cart")}">
 			<tr>
 				<td><c:out value="${item.name}"></c:out></td>
 				<td>
