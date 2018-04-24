@@ -8,7 +8,7 @@
 <title>Shopping Cart</title>
 </head>
 <body>
-<table border="1">
+<table border="0">
 		<tr>
 			<th>Name</th>
 			<th>Ingredients</th>
@@ -17,7 +17,7 @@
 			<th>Quantity</th>
 			<th></th>
 		</tr>
-		<c:forEach var="item" items="${session.getAttribute("cart")}">
+		<c:forEach var="item" items="${sessionScope.cart}">
 			<tr>
 				<td><c:out value="${item.name}"></c:out></td>
 				<td>
@@ -33,7 +33,7 @@
 					
 						<input type="hidden" name="productId" value="${ item.id }" />
 						<input type="hidden" name="currentQuantity" value="${ item.quantity }" />
-						<input type="hidden" name="Quantity" min="1" max="${ item.quantity }" />
+						<input type="hidden" name="quantity" min="1" max="${ item.quantity }" />
 						<input type="submit" name="delete" value="Delete" />
 					</form>				
 						

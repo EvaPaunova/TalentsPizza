@@ -6,8 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -18,11 +16,15 @@
 		<th>Price</th>
 		<th></th>
 	</tr>
-	<c:forEach var="product" items="${application.getAttribute("products")}">
-		<tr>${product.name}</tr>
-		<tr>${product.price}</tr>
-		<tr align="center"><a href="shoppingcart">Add to cart</a></tr>
-		
+	<c:forEach var="product" items="${applicationScope.products}">
+		<tr>
+			<td><c:out value="${product.name}"></c:out></td>
+			<td><c:out value="${product.price}"></c:out></td>
+			<td><form action="shoppingcart" method="post">
+						<input type="hidden" name="productId" value="${ product.id }" />
+						<input type="submit" name="addToCart" value="Add to Cart" />
+</form></td>
+		</tr>		
 	</c:forEach>
 	
 </table>

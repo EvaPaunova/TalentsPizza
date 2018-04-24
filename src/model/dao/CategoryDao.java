@@ -7,11 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import db.DBManager;
 import exception.InvalidArgumentsException;
 import model.Category;
-import model.Ingredient;
 
 public class CategoryDao implements ICategoryDao{
 	

@@ -6,7 +6,6 @@ public class Restaurant {
 	
 	private static final int MIN_NAME_LENGTH = 3;
 	private static final int MIN_CITY_LENGTH = 3;
-	private static final int MIN_LASTNAME_LENGTH = 3;
 	public static final int ADDRESS_MIN_LENGTH = 10;
 	public static final int ADDRESS_MAX_LENGTH = 40;
 	public static final int PHONE_MIN_LENGTH = 8;

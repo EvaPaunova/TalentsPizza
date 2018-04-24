@@ -6,10 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import db.DBManager;
 import exception.InvalidArgumentsException;
-import model.Address;
 import model.Restaurant;
 
 public class RestaurantDao implements IRestaurantDao{

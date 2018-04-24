@@ -8,7 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import db.DBManager;
+import exception.InvalidArgumentsException;
 import model.Product;
+import model.User;
 
 public class ProductDao {
 	private static ProductDao instance;
@@ -26,18 +28,18 @@ public class ProductDao {
 		return instance;
 	}
 	
-	public List<Product> getAllProducts() throws SQLException {
-		String sqlSelectAllProducts = "SELECT name,price,size_id FROM products;";
+	public List<Product> getAllProducts() throws SQLException, InvalidArgumentsException {
+		String sqlSelectAllProducts = "SELECT product_id,name,price FROM products;";
 		List<Product> products = new ArrayList<>();
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllProducts,Statement.RETURN_GENERATED_KEYS)){
 			ResultSet set = ps.executeQuery();
 			while (set.next()) {
+				int product_id =  set.getInt("product_id");
 				String name = set.getString("name");
 				Double price = set.getDouble("price");
-				int id = set.getInt("size_id");
-			//	Product product = new Product(name, price, sizes, categoryId, ingredients);
-			//	product.setId(product_id);
-			//	products.add(product);
+				Product product = new Product(name, price);
+				product.setId(product_id);
+				products.add(product);
 			}
 		}
 		
@@ -80,5 +82,20 @@ public class ProductDao {
 			ps.executeUpdate();
 		} 
 	}
-	
+	public Product getProductById(int id) throws SQLException, InvalidArgumentsException {
+		Product product = null;
+		String sqlSelectProduct = "SELECT name,price FROM products WHERE product_id = ? ;";
+		try(PreparedStatement ps = connection.prepareStatement(sqlSelectProduct)){
+			ps.setInt(1, id);
+			ResultSet result = ps.executeQuery();
+			while (result.next()) {
+				String name = result.getString("name");
+				double price = result.getDouble("price");
+				product = new Product(name, price);
+				product.setId(id);
+			}
+		}
+			
+		return product;
+	}	
 }

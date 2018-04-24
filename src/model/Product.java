@@ -20,6 +20,12 @@ public class Product {
 	private HashSet<Size> sizes;
 	private HashSet<Ingredient> ingredients;
 	   
+	//just for test
+	public Product(String name,double price) throws InvalidArgumentsException {
+		setName(name);
+		setPrice(price);
+		
+	}
 	public Product(String name, double price, HashSet<Size> sizes, long categoryId, HashSet<Ingredient> ingredients) throws InvalidArgumentsException {
 		setName(name);
 		setPrice(price);

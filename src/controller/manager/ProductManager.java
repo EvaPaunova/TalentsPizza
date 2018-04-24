@@ -2,6 +2,8 @@ package controller.manager;
 
 import java.sql.SQLException;
 import java.util.List;
+
+import exception.InvalidArgumentsException;
 import model.Product;
 import model.dao.ProductDao;
 
@@ -33,7 +35,7 @@ public class ProductManager {
 		productDao.updateProduct(product);
 	}
 	
-	public List<Product> getListOfAllProduct() throws SQLException{
+	public List<Product> getListOfAllProduct() throws SQLException, InvalidArgumentsException{
 		List<Product> products = productDao.getAllProducts();
 		return products;
 		
