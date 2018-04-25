@@ -19,13 +19,15 @@ public class Product {
 	private long categoryId;
 	private HashSet<Size> sizes;
 	private HashSet<Ingredient> ingredients;
-	   
-	//just for test
-	public Product(String name,double price) throws InvalidArgumentsException {
+	
+	public Product(long id,String name, double price, long categoryId) throws InvalidArgumentsException {
 		setName(name);
 		setPrice(price);
-		
+		setCategoryId(categoryId);
+		setSizes(sizes);
+		setIngredients(ingredients);
 	}
+	   
 	public Product(String name, double price, HashSet<Size> sizes, long categoryId, HashSet<Ingredient> ingredients) throws InvalidArgumentsException {
 		setName(name);
 		setPrice(price);

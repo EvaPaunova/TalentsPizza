@@ -11,7 +11,7 @@ public class DBManager {
 	private static final String DB_USER = "root";
 	private static final String DB_PORT = "3306";
 	private static final String DB_IP = "localhost";
-	private static final String DB_NAME = "dominos";
+	private static final String DB_NAME = "finalprojectdiagram";
 	
 	private static Connection connection;
 	private static DBManager instance;
