@@ -27,12 +27,22 @@ public class CartServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		User user = (User) request.getSession().getAttribute("user");
-		user.getCart();
+		Map<Product, Integer> cart =null;
 		if (request.getSession().getAttribute("cart") == null) {
-			Map<Product, Integer> cart = user.getCart();	
-			request.getSession().setAttribute("cart", cart);
-		}	
+			cart = user.getCart();
+		}
+		String id = request.getParameter("productId");
+		try {
+			Product p = ProductDao.getInstance().getProductById(Integer.parseInt(id));
+			user.addProductToShoppingCart(p, 1);
+			cart.put(p, 1);			
+		} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		request.getSession().setAttribute("cart", cart);
 		request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -93,7 +93,6 @@ public class ProductDao {
 				double price = result.getDouble("price");
 				long category_id = result.getLong("category_id");
 				product = new Product(id, name, price, category_id);
-				product.setId(id);
 			}
 		}
 			
