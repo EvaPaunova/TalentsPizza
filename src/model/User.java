@@ -15,8 +15,6 @@ public class User {
 	public static final int PASSWORD_MAX_LENGTH = 15;
 	public static final int USERNAME_MIN_LENGTH = 6;
 	public static final int USERNAME_MAX_LENGTH = 15;
-	public static final int ADDRESS_MIN_LENGTH = 15;
-	public static final int ADDRESS_MAX_LENGTH = 40;
 	public static final int PHONE_MIN_LENGTH = 8;
 	public static final String INVALID_NAME = "Invalid name";
 	public static final String INVALID_EMAIL = "Invalid email";

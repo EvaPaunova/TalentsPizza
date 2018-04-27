@@ -51,7 +51,7 @@ public class RegisterServlet extends HttpServlet {
 					response.sendRedirect("html.html");
 				}
 				else {
-					response.sendRedirect("errorpage.html");
+					response.sendRedirect("error.jsp");
 				}	
 				
 			} catch (SQLException e) {
