@@ -19,21 +19,19 @@
 		</tr>
 		<c:forEach var="item" items="${sessionScope.cart}">
 			<tr>
-				<td><c:out value="${item.name}"></c:out></td>
+				<td><c:out value="${item.key.name}"></c:out></td>
 				<td>
-				<c:forEach var="ingredient" items="${item.ingredients}">
-						<c:out value="${ingredient.name }"></c:out>
-				</c:forEach>
+				ingredients
 				</td>
-				<td><c:out value="${ item.size }"></c:out></td>
-				<td><c:out value="${ item.price }"></c:out></td>
-				<td></td>
+				<td><c:out value="${ item.key.size }"></c:out></td>
+				<td><c:out value="${ item.key.price }"></c:out></td>
+				<td><c:out value="${ item.key.price }"></c:out></td>
 				<td>
 					<form action="delete" method="post">
 					
-						<input type="hidden" name="productId" value="${ item.id }" />
-						<input type="hidden" name="currentQuantity" value="${ item.quantity }" />
-						<input type="hidden" name="quantity" min="1" max="${ item.quantity }" />
+						<input type="hidden" name="productId" value="${ item.key.id }" />
+						<input type="hidden" name="currentQuantity" value="${ item.value }" />
+						<input type="hidden" name="quantity" min="1" max="${ item.value }" />
 						<input type="submit" name="delete" value="Delete" />
 					</form>				
 						

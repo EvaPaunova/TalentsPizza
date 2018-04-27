@@ -20,10 +20,12 @@
 		<tr>
 			<td><c:out value="${product.name}"></c:out></td>
 			<td><c:out value="${product.price}"></c:out></td>
-			<td><form action="shoppingcart" method="post">
-						<input type="hidden" name="productId" value="${ product.id }" />
+			<td>${product.id}
+			<form action="shoppingcart" method="get">
+						<input type="hidden" name="productId" value="${product.id}" />
+						<c:set var="productId" value="${product.id}" scope="session"/>
 						<input type="submit" name="addToCart" value="Add to Cart" />
-</form></td>
+			</form></td>
 		</tr>		
 	</c:forEach>
 	
