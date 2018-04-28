@@ -18,26 +18,35 @@
 			<th>Total</th>
 			<th></th>
 		</tr>
+		<c:set var="sum" value = "0"></c:set>
 		<c:forEach var="item" items="${sessionScope.cart}">
+		<c:set var = "sum" value="${sum + item.key.price*item.value}"></c:set>
 			<tr>
 				<td><c:out value="${item.key.name}"></c:out></td>
 				<td>
 				ingredients
 				</td>
-				<td>(id)<c:out value="${ item.key.id }"></c:out></td>
+				<td> <select>
+					  <option value="average">Average</option>
+					  <option selected = "selected" value="big">Big</option>
+					  <option value="jumbo">Jumbo</option>
+					</select> </td>
 				<td><c:out value="${ item.key.price }"></c:out></td>
-				<td><c:out value="${ item.value }"></c:out></td>
+				<td align="center"><c:out value="${ item.value }"></c:out></td>
 				<td align="center"><c:out value="${ item.key.price*item.value }"></c:out></td>
 				<td>
-					<input type="submit" name="delete" value="Delete" />						
+					<a href = "shoppingcart?id=${item.key.id}&action=delete">Delete</a>						
 				</td>
 			</tr>
 			
 		</c:forEach>
 		<tr>
-			<td>Sum:</td>
+			<td colspan = "6" align = "right">Sum:<c:out value = "${sum }"></c:out></td>
 			</tr>
+			
 </table>
-<a href = "menu.jsp">Continue shopping</a>
+<a href = "menu.jsp">Continue shopping</a> 
+<p style = "padding-left:350px;"><button colspan = "6" align = "right">Order now</button></p>
+
 </body>
 </html>

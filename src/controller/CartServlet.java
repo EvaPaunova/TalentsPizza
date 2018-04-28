@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -45,9 +46,18 @@ public class CartServlet extends HttpServlet {
 			else {
 				cart.putAll((Map<Product, Integer>)request.getSession().getAttribute("cart"));
 				try {
-					cart.put(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
-					user.addProductToShoppingCart(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
-					//todo if product exist in cart quantity++
+					if(isExist(Integer.parseInt(id), cart)) {
+						for (Entry<Product, Integer> entry : cart.entrySet()) {
+							if(entry.getKey().equals(ProductDao.getInstance().getProductById(Integer.parseInt(id)))) {
+								int quantity = entry.getValue();
+								cart.put(ProductDao.getInstance().getProductById(Integer.parseInt(id)), quantity+1);
+							}
+						}
+					}
+					else {
+						cart.put(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
+						user.addProductToShoppingCart(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
+					}
 				} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
 					System.out.println(e.getMessage());
 				}
@@ -55,8 +65,39 @@ public class CartServlet extends HttpServlet {
 			request.getSession().setAttribute("cart", cart);
 			request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
 		}
+		else if(action.equals("delete")) {
+			cart.putAll((Map<Product, Integer>)request.getSession().getAttribute("cart"));
+			if(isExist(Integer.parseInt(id), cart)) {
+				for (Entry<Product, Integer> entry : cart.entrySet()) {
+					try {
+						if(entry.getKey().equals(ProductDao.getInstance().getProductById(Integer.parseInt(id)))) {
+							int quantity = entry.getValue();
+							if(quantity == 1) {
+								cart.remove(ProductDao.getInstance().getProductById(Integer.parseInt(id)));
+							}
+							else {
+								cart.put(ProductDao.getInstance().getProductById(Integer.parseInt(id)), quantity-1);
+							}
+						}
+					} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
+						System.out.println(e.getMessage());
+					}
+				}
+			}
+			
+			request.getSession().setAttribute("cart", cart);
+			request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
+		}
 		
-		
+	}
+	
+	private boolean isExist(int id,Map<Product, Integer> cart) {
+		for (Entry<Product, Integer> e : cart.entrySet()) {
+			if(e.getKey().getId() == id) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
