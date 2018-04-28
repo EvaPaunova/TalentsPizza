@@ -38,7 +38,7 @@ public class MainServlet extends HttpServlet {
 			try {
 				products = ProductDao.getInstance().getAllProducts();
 				System.out.println(products);
-				ingredients = IngredientDao.getInstance().getAllIngredients();
+			//	ingredients = IngredientDao.getInstance().getAllIngredients();
 			} catch (SQLException |InvalidArgumentsException e) {
 				System.out.println(e.getMessage());
 				request.setAttribute("exception", e);

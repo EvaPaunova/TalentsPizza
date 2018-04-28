@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -26,43 +27,39 @@ public class CartServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String action = request.getParameter("action");
+		String id = request.getParameter("id");
 		User user = (User) request.getSession().getAttribute("user");
-		Map<Product, Integer> cart = null;
-		if (request.getSession().getAttribute("cart") == null) {
-			cart = user.getCart();
-		}
-		else {
-			cart = (Map<Product, Integer>) request.getSession().getAttribute("cart");
+		Map<Product, Integer> cart = new HashMap<>();
+		
+		if(action.equals("addToCart")) {
+			if (request.getSession().getAttribute("cart") == null) {
+				try {
+					user.addProductToShoppingCart(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
+					cart = user.getCart();
+				} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
+					System.out.println(e.getMessage());
+				}
+				
+			}
+			else {
+				cart.putAll((Map<Product, Integer>)request.getSession().getAttribute("cart"));
+				try {
+					cart.put(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
+					user.addProductToShoppingCart(ProductDao.getInstance().getProductById(Integer.parseInt(id)), 1);
+					//todo if product exist in cart quantity++
+				} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
+					System.out.println(e.getMessage());
+				}
+			}	
+			request.getSession().setAttribute("cart", cart);
+			request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
 		}
 		
-		String id = request.getParameter("productId");
-		
-		try {
-			Product p = ProductDao.getInstance().getProductById(Integer.parseInt(id));
-			user.addProductToShoppingCart(p, 1);
-			System.out.println(user.getCart());
-		} catch (NumberFormatException | SQLException | InvalidArgumentsException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		request.getSession().setAttribute("cart", cart);
-		request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
 		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		User user = (User) request.getSession().getAttribute("user");
-		Map<Product, Integer> cart =null;
-		if (request.getSession().getAttribute("cart") == null) {
-			cart = user.getCart();
-		}
-		else {
-			cart = (Map<Product, Integer>) request.getSession().getAttribute("cart");
-
-		}
-		
-		request.getSession().setAttribute("cart", cart);
-		request.getRequestDispatcher("shoppingcart.jsp").forward(request, response);
 		
 	}
 

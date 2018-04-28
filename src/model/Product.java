@@ -21,6 +21,7 @@ public class Product {
 	private HashSet<Ingredient> ingredients;
 	
 	public Product(long id,String name, double price, long categoryId) throws InvalidArgumentsException {
+		setId(id);
 		setName(name);
 		setPrice(price);
 		setCategoryId(categoryId);

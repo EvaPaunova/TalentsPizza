@@ -12,20 +12,17 @@
 	
 <table border = "0">
 	<tr>
+		<th>Id</th>
 		<th>Name</th>
 		<th>Price</th>
 		<th></th>
 	</tr>
 	<c:forEach var="product" items="${applicationScope.products}">
 		<tr>
+			<td><c:out value="${product.id}"></c:out></td>
 			<td><c:out value="${product.name}"></c:out></td>
 			<td><c:out value="${product.price}"></c:out></td>
-			<td>${product.id}
-			<form action="shoppingcart" method="get">
-						<input type="hidden" name="productId" value="${product.id}" />
-						<c:set var="productId" value="${product.id}" scope="session"/>
-						<input type="submit" name="addToCart" value="Add to Cart" />
-			</form></td>
+			<td><a href="shoppingcart?id=${product.id}&action=addToCart">Add to cart</a></td>
 		</tr>		
 	</c:forEach>
 	

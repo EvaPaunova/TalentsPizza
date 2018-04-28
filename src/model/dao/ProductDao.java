@@ -33,7 +33,7 @@ public class ProductDao {
 		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllProducts,Statement.RETURN_GENERATED_KEYS)){
 			ResultSet set = ps.executeQuery();
 			while (set.next()) {
-				int product_id =  set.getInt("product_id");
+				long product_id =  set.getLong("product_id");
 				String name = set.getString("name");
 				Double price = set.getDouble("price");
 				long category_id = set.getLong("category_id");

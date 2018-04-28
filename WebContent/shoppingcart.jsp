@@ -15,6 +15,7 @@
 			<th>Size</th>
 			<th>Price</th>
 			<th>Quantity</th>
+			<th>Total</th>
 			<th></th>
 		</tr>
 		<c:forEach var="item" items="${sessionScope.cart}">
@@ -23,21 +24,20 @@
 				<td>
 				ingredients
 				</td>
-				<td><c:out value="${ item.key.size }"></c:out></td>
+				<td>(id)<c:out value="${ item.key.id }"></c:out></td>
 				<td><c:out value="${ item.key.price }"></c:out></td>
-				<td><c:out value="${ item.key.price }"></c:out></td>
+				<td><c:out value="${ item.value }"></c:out></td>
+				<td align="center"><c:out value="${ item.key.price*item.value }"></c:out></td>
 				<td>
-					<form action="delete" method="post">
-					
-						<input type="hidden" name="productId" value="${ item.key.id }" />
-						<input type="hidden" name="currentQuantity" value="${ item.value }" />
-						<input type="hidden" name="quantity" min="1" max="${ item.value }" />
-						<input type="submit" name="delete" value="Delete" />
-					</form>				
-						
+					<input type="submit" name="delete" value="Delete" />						
 				</td>
 			</tr>
+			
 		</c:forEach>
+		<tr>
+			<td>Sum:</td>
+			</tr>
 </table>
+<a href = "menu.jsp">Continue shopping</a>
 </body>
 </html>
