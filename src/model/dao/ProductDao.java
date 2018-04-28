@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import db.DBManager;
 import exception.InvalidArgumentsException;
+import model.Ingredient;
 import model.Product;
 
 public class ProductDao {
@@ -47,20 +48,46 @@ public class ProductDao {
 	}
 	
 	public void addNewProduct(Product product) throws SQLException {
-		String sqlInsertProduct = "INSERT INTO products () VALUES(?,?,?)";
-		try(PreparedStatement ps = connection.prepareStatement(sqlInsertProduct,Statement.RETURN_GENERATED_KEYS)){
-			ps.setString(1, product.getName());
-			ps.setLong(2,product.getCategoryId());
-			ps.setDouble(3, product.getPrice());
-			ps.executeUpdate();
-			try(ResultSet rs = ps.getGeneratedKeys()){
-				if(rs.next()) {
-					product.setId(rs.getLong(1));
+		connection.setAutoCommit(false);
+		String sqlInsertProduct = "INSERT INTO products (name, category_id, price) VALUES(?,?,?)";
+		try {
+			try(PreparedStatement ps = connection.prepareStatement(sqlInsertProduct,Statement.RETURN_GENERATED_KEYS)){
+				ps.setString(1, product.getName());
+				ps.setLong(2,product.getCategoryId());
+				ps.setDouble(3, product.getPrice());
+				ps.executeUpdate();
+				try(ResultSet rs = ps.getGeneratedKeys()){
+					if(rs.next()) {
+						product.setId(rs.getLong(1));
+					}
 				}
-				System.out.println("New user added!");
 			}
+			addIngredients(product);
+			connection.commit();
+		}
+		catch (SQLException e) {
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			connection.setAutoCommit(true);
 		}
 	}
+	
+	public void addIngredients(Product product) {
+		ArrayList<Ingredient> ingredients = new ArrayList<>(product.getIngredients());
+		for(int i = 0; i < ingredients.size(); i++) {
+			String sql = "INSERT INTO products_has_ingredients (product_id, ingredient_id) \\nVALUES(?,?)";
+			try(PreparedStatement ps = connection.prepareStatement(sql)){
+				ps.setLong(1, product.getId());
+				ps.setLong(1, ingredients.get(i).getId());
+				ps.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+		}
+}
 	
 	public void deleteProduct(Product product) throws SQLException{
 		String sqlDeleteProduct = "DELETE FROM products \nWHERE product_id = ?;";
