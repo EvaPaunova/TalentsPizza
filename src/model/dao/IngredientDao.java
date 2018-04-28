@@ -38,7 +38,7 @@ public class IngredientDao implements IIngredientDao{
 			ResultSet set = ps.executeQuery();
 			
 			while (set.next()) {
-				long id = set.getInt("ingredient_id");
+				long id = set.getLong("ingredient_id");
 				String name = set.getString("name");
 				double price = set.getDouble("price");
 				ingredients.add(new Ingredient(id,name,price));

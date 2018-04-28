@@ -37,6 +37,11 @@ public class Product {
 		setIngredients(ingredients);
 	}
 	
+	public Product(long id,String name, double price, long categoryId, HashSet<Ingredient> ingredients) throws InvalidArgumentsException {
+		this(id, name,price, categoryId);
+		setIngredients(ingredients);
+	}
+	
 	public Product(long id,String name, double price, long categoryId, HashSet<Size> sizes, HashSet<Ingredient> ingredients) throws InvalidArgumentsException {
 		this(name,price, sizes, categoryId, ingredients);
 		setId(id);

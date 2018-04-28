@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import db.DBManager;
 import exception.InvalidArgumentsException;
@@ -29,22 +30,50 @@ public class ProductDao {
 	}
 	
 	public List<Product> getAllProducts() throws SQLException, InvalidArgumentsException {
+		connection.setAutoCommit(false);
 		String sqlSelectAllProducts = "SELECT product_id,name,price,category_id FROM products;";
 		List<Product> products = new ArrayList<>();
-		try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllProducts,Statement.RETURN_GENERATED_KEYS)){
-			ResultSet set = ps.executeQuery();
-			while (set.next()) {
-				long product_id =  set.getLong("product_id");
-				String name = set.getString("name");
-				Double price = set.getDouble("price");
-				long category_id = set.getLong("category_id");
-				
-				Product product = new Product(product_id, name, price, category_id);
-				products.add(product);
+		try {
+			try(PreparedStatement ps = connection.prepareStatement(sqlSelectAllProducts,Statement.RETURN_GENERATED_KEYS)){
+				ResultSet set = ps.executeQuery();
+				while (set.next()) {
+					long product_id =  set.getLong("product_id");
+					String name = set.getString("name");
+					Double price = set.getDouble("price");
+					long category_id = set.getLong("category_id");
+					
+					HashSet<Ingredient> ingredients = getProductIngredients(product_id);
+					
+					Product product = new Product(product_id, name, price, category_id, ingredients);
+					products.add(product);
+				}
 			}
+		}
+		catch (SQLException e) {
+			connection.rollback();
+			throw e;
+		}
+		finally {
+			connection.setAutoCommit(true);
 		}
 		
 		return products;
+	}
+	
+	public HashSet<Ingredient> getProductIngredients(long productId) throws SQLException, InvalidArgumentsException{
+		HashSet<Ingredient> ingredients = new HashSet<>();
+		String sqlGetProductIngredients = "SELECT i.ingredient_id as ingredient_id, i.name as name, i.price as price FROM products_has_ingredients p JOIN ingredients i ON p.ingredient_id = i.ingredient_id WHERE p.product_id = ?";
+		try (PreparedStatement ps = connection.prepareStatement(sqlGetProductIngredients)){
+			ps.setLong(1, productId);
+			ResultSet set = ps.executeQuery();
+			while(set.next()) {
+				long id = set.getLong("ingredient_id");
+				String name = set.getString("name");
+				double price = set.getDouble("price");
+				ingredients.add(new Ingredient(id,name,price));
+			}
+		}
+		return ingredients;
 	}
 	
 	public void addNewProduct(Product product) throws SQLException {
